@@ -1,8 +1,15 @@
 // ### Menampilkan Catatan ###
-
 document.addEventListener("DOMContentLoaded", function() {
-    // Mendapatkan data dari session storage saat halaman dimuat
-    let dataCatatan = JSON.parse(sessionStorage.getItem('dataCatatan'));
+    let dataCatatan;
+
+    // Pengecekkan session storage "dataCatatan"
+    if (sessionStorage.getItem('dataCatatan')){
+        // Mendapatkan data dari session storage saat halaman dimuat
+        dataCatatan = JSON.parse(sessionStorage.getItem('dataCatatan'));
+    } else {
+        sessionStorage.setItem('dataCatatan', JSON.stringify({}));
+    }
+
     // Menarget div "main-content" untuk dimanipulasi
     let mainContent = document.getElementById("main-content");
 
@@ -11,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
      - jika dataCatatan tidak ada data, maka blok if dijalankan,
      - jika data ada blok else dijalankan
     */
-    if (!dataCatatan) {
+    if (Object.keys(dataCatatan).length === 0) {
         let divTampilCatatan = document.createElement("h1");
             divTampilCatatan.classList.add("card", "text-center", "m-2");
             divTampilCatatan.textContent = "Catatan masih kosong";
@@ -73,3 +80,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+
+// Fungsi untuk menangani Error
+function handleRefreshOnError() {
+    window.location.reload(); // Memuat ulang halaman
+}
+
+// Menambahkan event listener untuk menangani Error
+window.addEventListener('error', handleRefreshOnError);

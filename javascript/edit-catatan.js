@@ -1,6 +1,8 @@
 // Mengambil data dari session storage
 let dataCatatan = JSON.parse(sessionStorage.getItem('dataCatatan'));
 
+console(dataCatatan);
+
 // Temporary variable, digunakan untuk menyimpan data sementara
 let dataCatatanJudulTemp;
 

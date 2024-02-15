@@ -1,4 +1,5 @@
 // Menarget element form, dan ketika tombol "submit", ditekan akan menjalankan function(event)
+
 document.getElementById("formCatatan").addEventListener("submit", function(event) {
     // Untuk mencegah pengiriman formulir
     event.preventDefault();
@@ -16,9 +17,8 @@ function tambahCatatan(dataJudulBaru, dataKontenBaru) {
     if (dataJudulBaru && dataKontenBaru) {
         // Untuk mengambil data dari Session dengan key 'dataCatatan'
         let dataStorage = sessionStorage.getItem('dataCatatan');
-
         // Untuk menyimpan data dari hasil pengecekkan pada dataStorage
-        let dataTemp;
+        let inisiasiArray = [];
 
         /*
          Pengecekan data pada dataStorage,
@@ -26,18 +26,30 @@ function tambahCatatan(dataJudulBaru, dataKontenBaru) {
          jika dataStorage belum ada data, maka "else" yang dijalankan.
         */
         if (dataStorage){
-            // dataStorage akan diubah menjadi objek, sebelum dimasukkan kedalam dataTemp
-            dataTemp = JSON.parse(dataStorage);
+            // isi dari dataStorage akan diubah menjadi objek
+            dataStorage = JSON.parse(dataStorage);
+            if(Object.keys(dataStorage).length == 0){
+                dataStorage = [];
+                console.log(dataStorage, "if datastorage dijalankan..")
+            } else {
+                dataStorage = Object.keys(dataStorage).map(key => dataStorage[key]);
+                console.log(dataStorage, "else datastorage dijalankan..")
+            }
         } else {
-            // dataTemp akan diisi oleh Array kosong
-            dataTemp = [];
+            // dataStroge akan diisi oleh Object kosong
+            dataStorage = {};
         }
 
-        // Menambahkan catatan baru ke dalam data catatan lama (dataTemp)
-        dataTemp.push([dataJudulBaru, dataKontenBaru]);
+        // Menambahkan catatan baru ke dalam inisiasiArray
+        inisiasiArray.push([dataJudulBaru, dataKontenBaru]);
+        // Penggabungan Array
+        let gabunganArray = [...dataStorage, ...inisiasiArray];
+        // Mengubah data Array menjadi String
+        let arrayToString = JSON.stringify(gabunganArray);
 
-        // Sebelum disimpan kedalam sessionStorage, data akan diubah kedalam bentuk String dengan "stringify"
-        sessionStorage.setItem('dataCatatan', JSON.stringify(dataTemp));
+        // Memasukkan data arrayToString kedalam session storage
+        sessionStorage.setItem('dataCatatan', arrayToString);
+
         alert("Catatan Baru, berhasil ditambahkan");
     } else {
         // Blok "else" akan dijalankan jika dataJudulBaru & dataKontenBaru kosong
