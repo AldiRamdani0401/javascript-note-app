@@ -1,6 +1,6 @@
 // Menarget element form, dan ketika tombol "submit", ditekan akan menjalankan function(event)
 
-document.getElementById("formCatatan").addEventListener("submit", function(event) {
+document.getElementById("formCatatan").addEventListener("submit", function(event){
     // Untuk mencegah pengiriman formulir
     event.preventDefault();
 
@@ -30,10 +30,8 @@ function tambahCatatan(dataJudulBaru, dataKontenBaru) {
             dataStorage = JSON.parse(dataStorage);
             if(Object.keys(dataStorage).length == 0){
                 dataStorage = [];
-                console.log(dataStorage, "if datastorage dijalankan..")
             } else {
                 dataStorage = Object.keys(dataStorage).map(key => dataStorage[key]);
-                console.log(dataStorage, "else datastorage dijalankan..")
             }
         } else {
             // dataStroge akan diisi oleh Object kosong
