@@ -34,13 +34,14 @@ document.addEventListener("DOMContentLoaded", function() {
             let cardBody = document.createElement("div");
                 cardBody.classList.add("card-body");
 
-            let cardTitle = document.createElement("h4");
+            let nomorCatatan = index + 1;
+            let cardTitle = document.createElement("h6");
                 cardTitle.classList.add("fw-bold")
-                cardTitle.textContent = "Judul : " + dataCatatan[index][0];
+                cardTitle.textContent = "Catatan ke : " + nomorCatatan;
 
             let cardText = document.createElement("p");
                 cardText.classList.add("card-text");
-                cardText.textContent = dataCatatan[index][1];
+                cardText.textContent = dataCatatan[index][0];
 
             // Menambahkan elemen button "Detail"
             let btnHForm = document.createElement("button");

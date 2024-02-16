@@ -1,8 +1,8 @@
 // Menarget element form, dan ketika tombol "submit", ditekan akan menjalankan function(event)
 
-document.getElementById("formCatatan").addEventListener("submit", function(event){
-    // Untuk mencegah pengiriman formulir
-    event.preventDefault();
+let formTambahCatatan = document.getElementById('formTambahCatatan');
+
+formTambahCatatan.addEventListener("submit", function(event){
 
     // Untuk menangkap kiriman data (nilai) form dari "judulBaru" & "catatanBaru"
     let catatanBaruJudul = document.getElementById("judulBaru").value;
@@ -48,9 +48,14 @@ function tambahCatatan(dataJudulBaru, dataKontenBaru) {
         // Memasukkan data arrayToString kedalam session storage
         sessionStorage.setItem('dataCatatan', arrayToString);
 
-        alert("Catatan Baru, berhasil ditambahkan");
+        // Ketika data berhasil ditambahkan, maka akan diarahkan ke halaman "index.html" dengan mengirim response "tambah-success";
+
+        alert('Catatan baru berhasil ditambahkan!');
+
+        // Menambahkan action kedalam formTambahCatatan
+        formTambahCatatan.setAttribute('action', 'index.html');
     } else {
-        // Blok "else" akan dijalankan jika dataJudulBaru & dataKontenBaru kosong
+        // Kesalahan pada function "tambahCatatan"
         alert("Judul dan konten catatan harus diisi!");
     }
 }

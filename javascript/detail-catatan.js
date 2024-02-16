@@ -1,6 +1,8 @@
 // Mengambil data dari session storage
 let dataCatatan = JSON.parse(sessionStorage.getItem('dataCatatan'));
 
+let arrayIndex;
+
 // Untuk menarget div "judul-catatan" & "konten-catatan"
 
 let divJudulCatatan = document.getElementById('judul-catatan');
@@ -25,11 +27,12 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Membuat element P untuk Konten Catatan
     let elementPKonten = document.createElement("p");
+        elementPKonten.style.textAlign = "justify";
         elementPKonten.textContent = dataCatatan[arrayIndex][1];
     divKontenCatatan.appendChild(elementPKonten);
 
     // Menarget formEditCatatan
-    let formEditCatatan = document.getElementById('formEditCatatan');
+    let formEditAtauDeleteCatatan = document.getElementById('formEditAtauDeleteCatatan');
 
     // Menambahkan button ke form untuk ke halaman edit catatan
     let btnEditCatatan = document.createElement('button');
@@ -37,21 +40,58 @@ document.addEventListener('DOMContentLoaded', function(){
         btnEditCatatan.setAttribute('type', 'submit');
         btnEditCatatan.textContent = 'Edit';
 
-    // Menambahkan btnEditCatatan ke formEditCatatan
-    formEditCatatan.appendChild(btnEditCatatan);
+    // Menambahkan btnEditCatatan ke formEditAtauDeleteCatatan
+    formEditAtauDeleteCatatan.appendChild(btnEditCatatan);
 
         // Menambahkan Event/Function ketika tombol "Edit" di tekan.
         btnEditCatatan.addEventListener("click", function(){
-            formEditCatatan.setAttribute('action', 'edit-catatan.html?' + arrayIndex);
+            formEditAtauDeleteCatatan.setAttribute('action', 'edit-catatan.html?' + arrayIndex);
 
             let hiddenInput = document.createElement('input');
                 hiddenInput.setAttribute('name', 'index');
                 hiddenInput.setAttribute('type', 'hidden');
                 hiddenInput.setAttribute('value', arrayIndex);
 
-            // Menambahkan hiddenInput ke dalam formEditCatatan
-                formEditCatatan.appendChild(hiddenInput);
+            // Menambahkan hiddenInput ke dalam formEditAtauDeleteCatatan
+                formEditAtauDeleteCatatan.appendChild(hiddenInput);
 
-                formEditCatatan.submit();
+                formEditAtauDeleteCatatan.submit();
         });
+
+    // Menambahkan button "Delete"
+    let btnDeleteCatatan = document.createElement('button');
+        btnDeleteCatatan.classList.add('btn', 'btn-danger', 'fw-bold', 'm-3');
+        btnDeleteCatatan.setAttribute('type', 'submit');
+        btnDeleteCatatan.textContent = 'Delete';
+
+    // Menambahkan btnDeleteCatatan ke dalam formDeleteCatatan
+    formEditAtauDeleteCatatan.appendChild(btnDeleteCatatan);
+
+    // Menambahkan Event/Function ketika tombol "Delete" ditekan, maka Catatan tersebut akan dihapus.
+
+    btnDeleteCatatan.addEventListener('click', function(){
+
+        let hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('name', 'index');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('value', arrayIndex);
+
+        // Memasukkan elemen input ke dalam formulir
+        formEditAtauDeleteCatatan.appendChild(hiddenInput);
+
+        formEditAtauDeleteCatatan.submit();
+        let konfirmasi = confirm("Apakah anda yakin ingin menghapus catatan ini?");
+
+        if (konfirmasi){
+            let data = JSON.parse(sessionStorage.getItem('dataCatatan'));
+            data.splice(arrayIndex, 1);
+            let updateData = JSON.stringify(data);
+            sessionStorage.setItem('dataCatatan', updateData);
+
+            alert('Catatan berhasil di Hapus!');
+
+            // Menambahkan action ke dalam formEditAtauDeleteCatatan
+            formEditAtauDeleteCatatan.setAttribute('action', 'index.html');
+        }
+    });
 });

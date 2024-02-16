@@ -5,6 +5,9 @@ let dataCatatan = JSON.parse(sessionStorage.getItem('dataCatatan'));
 
 let arrayIndex;
 
+// mendapatkan index data catatan
+arrayIndex = new URLSearchParams(window.location.search).get('index');
+
 // Untuk menarget input dengan id "editJudul" & input dengan id "editCattan"
 let inputFormEditCatatanJudul = document.getElementById('editJudul');
 let inputFormEditCatatanKonten = document.getElementById('editCatatan');
@@ -19,8 +22,6 @@ document.addEventListener("DOMContentLoaded", function(){
         dataCatatan = [];
     }
 
-    arrayIndex = new URLSearchParams(window.location.search).get('index');
-
     // Menerapkan data session storage ke dalam input "editJudul"
     inputFormEditCatatanJudul.value = dataCatatan[arrayIndex][0];
 
@@ -28,8 +29,9 @@ document.addEventListener("DOMContentLoaded", function(){
     inputFormEditCatatanKonten.value = dataCatatan[arrayIndex][1];
 });
 
-document.getElementById("formEditCatatan").addEventListener("submit", function(event){
-    event.preventDefault();
+let formEditCatatan = document.getElementById("formEditCatatan");
+
+formEditCatatan.addEventListener("submit", function(event){
 
     // Memperbarui nilai pada array sesuai dengan input yang diubah
     dataCatatan[arrayIndex][0] = inputFormEditCatatanJudul.value;
@@ -37,16 +39,24 @@ document.getElementById("formEditCatatan").addEventListener("submit", function(e
 
     let updateDataCatatan = JSON.stringify(dataCatatan);
 
-    // Menyimpan kembali dataCatatan ke
-    sessionStorage.setItem('dataCatatan', updateDataCatatan);
+    let konfirmasi = confirm('Apakah anda yakin ingin mengubah catatan ini?');
 
-    alert("Catatan dengan Judul: " + '"' + dataCatatan[arrayIndex][0] + '"' + "Berhasil di update!")
+    // konfirmasi pembaruan catatan
+    if (konfirmasi) {
+        alert('Catatan berhasil diupdate!');
+
+        // Menyimpan kembali dataCatatan ke dalam session storage
+        sessionStorage.setItem('dataCatatan', updateDataCatatan);
+
+        // Menambahkan action kedalam formEditCatatan
+        formEditCatatan.setAttribute('action', 'index.html');
+    } else {
+        // catatan tidak akan diperbarui
+        event.preventDefault();
+    }
 });
 
-// button "Kembali" ke halaman detail-catatan.html sesuai data catatan yang dipilih
-
-// mendapatkan index data catatan
-arrayIndex = new URLSearchParams(window.location.search).get('index');
+// ## tombol "Kembali" ke halaman detail-catatan.html sesuai data catatan yang dipilih
 
 let btnKembali = document.getElementById('kembali-ke-detail');
 btnKembali.setAttribute('href', 'detail-catatan.html?index=' + arrayIndex);
