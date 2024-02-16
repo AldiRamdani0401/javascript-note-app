@@ -42,16 +42,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 cardText.classList.add("card-text");
                 cardText.textContent = dataCatatan[index][1];
 
-            // Menambahkan elemen button "Edit"
+            // Menambahkan elemen button "Detail"
             let btnHForm = document.createElement("button");
-                btnHForm.classList.add("btn", "btn-warning", "fw-bold");
+                btnHForm.classList.add("btn", "btn-primary", "fw-bold");
                 btnHForm.setAttribute("type", "submit");
-                btnHForm.textContent = "Edit";
+                btnHForm.textContent = "Detail";
 
-                // Menambahkan Event/Function ketika tombol "Edit" di tekan.
+                // Menambahkan Event/Function ketika tombol "Detail" di tekan.
                 btnHForm.addEventListener("click", function(){
                     let hiddenForm = document.createElement("form");
-                        hiddenForm.setAttribute("action", "edit-catatan.html?" + index);
+                        hiddenForm.setAttribute("action", "detail-catatan.html?" + index);
 
                 // Membuat hiddenInput untuk menampung nilai index
                     let hiddenInput = document.createElement("input");
@@ -65,8 +65,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     hiddenForm.submit();
                 });
-
-            // Menambahkan elemen button "Delete"
 
         // Menambahkan elemen ke dalam cardBody
             cardBody.appendChild(cardTitle);
